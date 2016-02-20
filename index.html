@@ -1,0 +1,283 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>flickrFavoritesGetList</title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script type="text/javascript" src="jquery.easing.1.3.js"></script>
+		<script type="text/javascript" src="flickr-search.js"></script>
+		<script type="text/javascript">
+			<!--
+
+			//api読み込み
+			window.onload = function () {
+				var script    = document.createElement( 'script' );
+				var srcString = photo_search({ per_page: 30 });
+
+						script.type = 'text/javascript';
+						script.src  = srcString;
+
+				var firstScript = document.getElementsByTagName( 'script' )[ 0 ];
+						firstScript.parentNode.insertBefore( script, firstScript );
+						$("#photos_text > p").text("Loading...");
+
+				}
+			//スライドの動き
+			function sildeMove() {
+
+				var photoNumber = $("#photos_here > img").length;
+				var slideNumber = 1;
+				var slideName;
+				var widthNum;
+				var heightNum;
+				var Num;
+
+				$("#canvasLoading").animate(
+					{
+					opacity: 0
+					},{
+					duration: 1500,
+					easing: "easeInOutBack"});
+				$("#photos_text").animate(
+					{
+					opacity: 0
+					},{
+					duration: 1500,
+					easing: "easeInOutBack"});
+
+			//画像を揃える
+			function alignSize(){
+				for (var i = 0 ; i < photoNumber; i++){
+					slideName = "#photos" + i;
+					heightNum = $(slideName).height();
+					widthNum = $(slideName).width();
+					//縦の方が大きかったら
+					if(heightNum >= widthNum){
+
+							//なおかつ550より大きかったら
+							if(heightNum > 550){
+								var Per = (550/heightNum);
+								$(slideName).css('height',550);
+								$(slideName).css('width',widthNum*Per);
+								//横幅取り直し
+								widthNum = widthNum*Per;
+								}
+
+						$(slideName).offset({
+							top: 10 ,
+							left: +Number((800 - widthNum)/2)
+							});
+						$(slideName).css('top',0);
+
+						slideNumber++;
+						//横の方が大きかったら
+						}else{
+							$(slideName).offset({
+								top:  Number((560 - heightNum)/2) ,
+								left: Number((800 - widthNum)/2)
+								});
+							slideNumber++;
+							}
+
+					if(slideNumber > photoNumber){
+						slideNumber = 0;
+						fadeInAnime();
+						}
+					}
+				}
+
+			//フェードインアニメーション
+			function fadeInAnime(){
+			slideName = "#photos" + slideNumber;
+			widthNum = $(slideName).width();
+			heightNum = $(slideName).height();
+
+			 var ranNum = Math.random()*4;
+					 ranNum = Math.floor(ranNum);
+
+			switch(ranNum){
+				case 0:
+									//表示
+									$(slideName).animate(
+										{
+										opacity: 1
+										},{
+										duration: 1500,
+										easing: "easeInOutBack",
+										complete: function() {
+											fadeOutAnime();
+											}
+										});
+									break;
+				case 1:
+									//今の位置記憶
+									var nowX = $(slideName).offset().left;
+									var nowY = $(slideName).offset().top;
+									//枠の外にセット
+									$(slideName).offset({ left: 760 });
+
+									//表示
+									$(slideName).animate(
+										{
+										opacity: 1,
+										left: nowX
+										},{
+										duration: 1500,
+										easing: "easeInOutQuart",
+										complete: function() {
+											fadeOutAnime();
+											}
+										});
+									break;
+				case 2:
+									//今の位置記憶
+									var nowWidth = $(slideName).width();
+									var nowHeight = $(slideName).height();
+									var nowX = $(slideName).offset().left;
+									var nowY = $(slideName).offset().top;
+
+									//枠の外にセット
+									$(slideName).width(1);
+									$(slideName).height(nowHeight);
+									$(slideName).offset({ left: nowX+(nowWidth/2) });
+
+									//表示
+									$(slideName).animate(
+										{
+										opacity: 1,
+										width: nowWidth,
+										left: nowX
+										},{
+										duration: 1500,
+										easing: "easeOutCirc",
+										complete: function() {
+											fadeOutAnime();
+											}
+										});
+									break;
+				case 3:
+									//今の位置記憶
+									var nowWidth = $(slideName).width();
+									var nowHeight = $(slideName).height();
+									var nowX = $(slideName).offset().left;
+									var nowY = $(slideName).offset().top;
+
+									//枠の外にセット
+									$(slideName).width(1);
+									$(slideName).height(1);
+									$(slideName).offset({ top: nowY+(nowHeight/2), left: nowX+(nowWidth/2) });
+									//表示
+									$(slideName).animate(
+										{
+										opacity: 1,
+										height: nowHeight,
+										width: nowWidth,
+										left: nowX,
+										top: nowY
+										},{
+										duration: 1500,
+										easing: "easeOutExpo",
+										complete: function() {
+											fadeOutAnime();
+											}
+										});
+									break;
+				default:
+									//表示
+									$(slideName).animate(
+										{
+										opacity: 1
+										},{
+										duration: 1500,
+										easing: "linear",
+										complete: function() {
+											fadeOutAnime();
+											}
+										});
+									break;
+					}
+			}
+
+			//フェードアウトアニメーション
+			function fadeOutAnime () {
+				slideName = "#photos" + slideNumber;
+				widthNum = $(slideName).width();
+				heightNum = $(slideName).height();
+
+			//右へスライド
+			$(slideName)
+				.delay( 4000 )
+				.animate(
+					{
+					opacity: 0
+					},{
+					duration: 500,
+					easing: "linear",
+					complete: function() {
+						if(slideNumber == 29){
+							slideNumber = 0;
+						}else{
+							slideNumber++;
+							}
+					fadeInAnime();
+					}
+				});
+			}
+			//サイズ揃え実行
+			alignSize();
+			}
+
+			-->
+		</script>
+		<style>
+			body {
+				background: #000;
+				}
+			#photos_box {
+				margin    :0 auto;
+				width     :750px;
+				color     : #ccc;
+			}
+			#photos_here {
+				position  : relative;
+				top       :  0;
+				left      : 0;
+				width     : 750px;
+				height    : 560px;
+				border    : solid 1px #000;
+				overflow  : hidden;
+				display   : block;
+				color     : #ccc;
+				}
+			#photos_here > img,
+			#photos_text,
+			#canvasLoading {
+				position  : absolute;
+				top       :  0;
+				left      : 0;
+				display   : block;
+				}
+				#photos_text {
+					width: 300px;
+					text-align: center;
+					top       : 200;
+					left      : 250;
+					display   : block;
+					}
+					#canvasLoading {
+						top       : 150;
+						left      : 250;
+						}
+		</style>
+	</head>
+	<body>
+		<div id="photos_box">
+			<div id="photos_text">
+				<p></p>
+			</div>
+			<canvas id="canvasLoading"> </canvas>
+			<div id="photos_here"></div>
+		</div>
+
+	</body>
+	<script type="text/javascript" src="loadingAnime.js"></script>
+</html>
