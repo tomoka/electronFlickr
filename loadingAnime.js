@@ -14,6 +14,7 @@ var CENTER_X = 150;
 var CENTER_Y = 75;
 
 var clearCanvas;
+var _animationID;
 
 function animationLoop(){
 
@@ -31,8 +32,5 @@ function animationLoop(){
   degree++;
 
   _animationID = window.requestAnimationFrame(animationLoop);
-  if(degree >= 360){
-    window.cancelAnimationFrame(_animationID);
-  }
 }
 animationLoop();

@@ -30,13 +30,20 @@
 				var widthNum;
 				var heightNum;
 				var Num;
+				var w = $(window).width();
+				var h = $(window).height();
 
 				$("#canvasLoading").animate(
 					{
 					opacity: 0
 					},{
 					duration: 1500,
-					easing: "easeInOutBack"});
+					easing: "easeInOutBack",
+					complete: function() {
+						window.cancelAnimationFrame(_animationID);
+						}
+					});
+
 				$("#photos_text").animate(
 					{
 					opacity: 0
@@ -56,24 +63,24 @@
 							//なおかつ550より大きかったら
 							if(heightNum > 550){
 								var Per = (550/heightNum);
-								$(slideName).css('height',550);
-								$(slideName).css('width',widthNum*Per);
 								//横幅取り直し
 								widthNum = widthNum*Per;
+								$(slideName).css('height',550);
+								$(slideName).css('width',widthNum);
 								}
 
 						$(slideName).offset({
-							top: 10 ,
-							left: +Number((800 - widthNum)/2)
+							top: Number((h - 550)/2) ,
+							left: Number((w - widthNum)/2)
 							});
-						$(slideName).css('top',0);
+						//$(slideName).css('top',0);
 
 						slideNumber++;
 						//横の方が大きかったら
 						}else{
 							$(slideName).offset({
-								top:  Number((560 - heightNum)/2) ,
-								left: Number((800 - widthNum)/2)
+								top:  Number(((h - heightNum)/2)-35),
+								left: Number((w - widthNum)/2)
 								});
 							slideNumber++;
 							}
@@ -113,7 +120,7 @@
 									var nowX = $(slideName).offset().left;
 									var nowY = $(slideName).offset().top;
 									//枠の外にセット
-									$(slideName).offset({ left: 760 });
+									$(slideName).offset({ left: 810 });
 
 									//表示
 									$(slideName).animate(
@@ -229,21 +236,32 @@
 			-->
 		</script>
 		<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html {
+			background: #000;
+			}
 			body {
 				background: #000;
+				font-family: sans-serif;
+				width     : 800px;
+				height    : 600px;
+				overflow  : hidden;
 				}
 			#photos_box {
-				margin    :0 auto;
-				width     :750px;
+				width     :800px;
+				height    : 600px;
 				color     : #ccc;
+				overflow  : hidden;
 			}
 			#photos_here {
 				position  : relative;
 				top       :  0;
 				left      : 0;
-				width     : 750px;
-				height    : 560px;
-				border    : solid 1px #000;
+				width     : 800px;
+				height    : 600px;
 				overflow  : hidden;
 				display   : block;
 				color     : #ccc;
@@ -259,12 +277,12 @@
 				#photos_text {
 					width: 300px;
 					text-align: center;
-					top       : 200;
+					top       : 250;
 					left      : 250;
 					display   : block;
 					}
 					#canvasLoading {
-						top       : 150;
+						top       : 175;
 						left      : 250;
 						}
 		</style>

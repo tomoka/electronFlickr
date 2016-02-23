@@ -15,7 +15,12 @@ app.on('window-all-closed', function() {
 // アプリケーションの初期化が完了したら呼び出されます。
 app.on('ready', function() {
   // メインウィンドウを作成します。
-  mainWindow = new BrowserWindow({width: 800, height: 600, 'node-integration': false});
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    frame: true,
+    'node-integration': false
+  });
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // ウィンドウが閉じられたらアプリも終了
