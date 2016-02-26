@@ -11,10 +11,10 @@ var clearCountMonitoring;
 // 画像検索を行う関数
 function photo_search ( param ) {
     // APIリクエストパラメタの設定
-    param.api_key  = '7acf***e19';
+    param.api_key  = '7ac*******e19';
     param.method   = 'flickr.favorites.getList';
     param.format   = 'json';
-    param.user_id  = '9***@*5';
+    param.user_id  = '9**********N05';
 
     // APIリクエストURLの生成(GETメソッド)
     var url = 'https://api.flickr.com/services/rest/?method=flickr.favorites.getList&' + obj2query( param );
